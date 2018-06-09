@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
-import {  StyleSheet, Text, View, Button } from 'react-native';
+import {  StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 import LoadTabs from "../Tabs"
+import Logo from "./logo";
 
 class Login extends Component{
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-        <Button
-          title="Go to home"
-          onPress = {()=>{
-            LoadTabs();
-          }}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <Logo
+
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container:{
-    marginTop: 20,
+    flex: 1,
+    backgroundColor:'#fff',
+    alignItems:'center'
 
   }
 });
