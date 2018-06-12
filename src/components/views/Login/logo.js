@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {  StyleSheet, Text, View, Animated, Easing } from 'react-native';
 
-
 class Logo extends Component {
 
 state = {
@@ -21,7 +20,7 @@ componentWillMount(){
         easing:Easing.easeOutCubic
       })
     ]).start(()=>{
-      alert('Done');
+      this.props.showLogin();
     })
 }
 
@@ -29,7 +28,12 @@ componentWillMount(){
   render(){
     return(
       <View>
-        <View style={styles.logoStyles}>
+        <View style={
+
+          this.props.orientation === "portrait"
+          ? styles.logoStylesPortrait
+          : styles.logoStylesLandscape
+        }>
           <Animated.View style={{
             opacity: this.state.sellAnim,
             top:this.state.sellAnim.interpolate({
@@ -38,7 +42,7 @@ componentWillMount(){
             })
           }}
             >
-            <Text style={styles.sell}>Sell</Text>
+            <Text style={styles.sell}>Point</Text>
           </Animated.View>
           <Animated.View style={{
             opacity: this.state.itAnim,
@@ -48,7 +52,7 @@ componentWillMount(){
             })
           }}
             >
-            <Text style={styles.it}>It</Text>
+            <Text style={styles.it}>Secured</Text>
           </Animated.View>
 
 
@@ -59,21 +63,27 @@ componentWillMount(){
 }
 
 const styles = StyleSheet.create({
-  logoStyles:{
+  logoStylesPortrait:{
     marginTop:50,
     flex:1,
     flexDirection:'row',
     maxHeight:100
   },
+  logoStylesLandscape:{
+    marginTop:40,
+    flex:1,
+    flexDirection:'row',
+    maxHeight:50
+  },
   sell:{
     fontSize:40,
     fontFamily:"RobotoCondensed-Regular",
-    color:"#555555"
+    color:"#233a77"
   },
   it:{
     fontSize:40,
     fontFamily:"RobotoCondensed-Regular",
-    color:"#00ADA9"
+    color:"#233a77"
 
   }
 })
