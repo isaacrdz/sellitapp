@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {  StyleSheet, Text, View, Animated, Image } from 'react-native';
-
+import LoginForm from './loginForm';
 import backImage from '../../../assets/images/loginPanel.jpg';
 
 class LoginPanel extends Component {
@@ -54,7 +54,7 @@ class LoginPanel extends Component {
             })
           }}
           >
-          <Text>FORM</Text>
+        <LoginForm/>
         </Animated.View>
       </View>
     )
