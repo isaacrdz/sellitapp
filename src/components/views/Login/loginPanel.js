@@ -54,7 +54,9 @@ class LoginPanel extends Component {
             })
           }}
           >
-        <LoginForm/>
+        <LoginForm
+          platform={this.props.platform}
+        />
         </Animated.View>
       </View>
     )
@@ -64,7 +66,8 @@ class LoginPanel extends Component {
 const styles = StyleSheet.create({
   imageStyle:{
     width:270,
-    height:150
+    height:150,
+    marginTop:50
   }
 })
 

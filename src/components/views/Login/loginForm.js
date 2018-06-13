@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
+
+import Input from "../../utils/forms/inputs";
 
 class LoginForm extends Component {
 
   state = {
+    type:"Login",
+    action:"Login",
+    actionMode:"Not a user, Register",
+    hasErrors:false,
     form: {
       email: {
         value: "",
@@ -31,22 +37,114 @@ class LoginForm extends Component {
       }
     }
   }
+updateInput = (name, value)=>{
+  this.setState({
+    hasErrors:false
+  })
+
+  let formCopy = this.state.form;
+  formCopy[name].value = value;
+
+  this.setState({
+    form:formCopy
+  })
+}
+
+
+confirmPassword = ()=>(
+  this.state.type != "Login" ?
+    <Input
+      placeholder="Confirm your password"
+      type={this.state.form.confirmPassword.type}
+      value={this.state.form.confirmPassword.value}
+      onChangeText = {value => this.updateInput("confirmPassword",value)}
+      secureTextEntry
+    />
+  :null
+)
+
+changeFormType = ()=>{
+  const type = this.state.type;
+  this.setState({
+    type: type === "Login" ? "Register" : "Login",
+    action: type === "Login" ? "Register" : "Login",
+    actionMode: type === "Login" ? "Not registered, Login" : "Not a user, Register",
+  })
+}
 
   render() {
     return (
-      <View>
+      <View style={styles.formInputContainer}>
           <Input
             placeholder="Enter your email"
             type={this.state.form.email.type}
             value={this.state.form.email.value}
-            onChangeText = {value => ()=> alert('hey')}
+            onChangeText = {value => this.updateInput("email",value)}
             autoCapitalize={"none"}
             keyboarType={"email-address"}
 
           />
+
+          <Input
+            placeholder="Enter your password"
+            type={this.state.form.password.type}
+            value={this.state.form.password.value}
+            onChangeText = {value => this.updateInput("password",value)}
+            secureTextEntry
+
+          />
+
+          {this.confirmPassword()}
+          <View style={
+            this.props.platform === "android"
+            ? styles.buttonStyleAndroid
+            : styles.buttonStyleIos
+          }>
+          <Button
+            title={this.state.action}
+            color="#fd9727"
+            onPress={()=> alert('submit')}
+          />
+        </View>
+
+
+          <View style={
+            this.props.platform === "android"
+            ? styles.buttonStyleAndroid
+            : styles.buttonStyleIos
+          }>
+          <Button
+            title={this.state.actionMode}
+            color="lightgray"
+            onPress={this.changeFormType}
+          />
+        </View>
+
+
+          <View>
+          <Button
+            title="I'll do it later'"
+            color="lightgray"
+            onPress={()=> alert('do it later')}
+          />
+        </View>
     </View>
   )
   }
 }
+
+const styles = StyleSheet.create({
+  formInputContainer:{
+    minHeight:400
+  },
+  buttonStyleAndroid:{
+    marginBottom:10,
+    marginTop:10
+  },
+  buttonStyleIos:{
+    marginBottom:0
+  },
+
+})
 
 export default LoginForm;
