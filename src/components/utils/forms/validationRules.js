@@ -1,4 +1,6 @@
-const validation = (value, rules) => {
+const validation = (value, rules,form) => {
+
+  // console.log(form)
   let valid = true;
 
   for (let rule in rules) {
@@ -11,6 +13,9 @@ const validation = (value, rules) => {
         break
       case "minLength":
         valid = valid && validateMinLength(value,rules[rule])
+        break
+      case "confirmPass":
+        valid = valid && validateconfirmPass(value,form[rules.confirmPass].value)
         break
       default:
         valid = true
@@ -44,6 +49,9 @@ const validateMinLength = (value, ruleValue)=>{
     return true
   }
   return false;
+}
+const validateconfirmPass = (confirmPass, pass) =>{
+  return confirmPass === pass
 }
 
 export default validation;
