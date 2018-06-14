@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 
 import Input from "../../utils/forms/inputs";
+import ValidationRules from '../../utils/forms/validationRules';
+
 
 class LoginForm extends Component {
 
@@ -16,6 +18,7 @@ class LoginForm extends Component {
         valid: false,
         type: "textinput",
         rules: {
+          isRequired: true,
           isEmail: true
         }
       },
@@ -24,6 +27,7 @@ class LoginForm extends Component {
         valid: false,
         type: "textinput",
         rules: {
+            isRequired:true,
           minLength: 6
         }
       },
@@ -44,6 +48,16 @@ updateInput = (name, value)=>{
 
   let formCopy = this.state.form;
   formCopy[name].value = value;
+
+
+
+
+  let rules = formCopy[name].rules
+  let valid = ValidationRules(value, rules);
+
+  console.log(valid)
+  formCopy[name].valid = valid;
+
 
   this.setState({
     form:formCopy

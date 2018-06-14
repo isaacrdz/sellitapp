@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  StyleSheet, Text, View, Animated, Image } from 'react-native';
 import LoginForm from './loginForm';
-import backImage from '../../../assets/images/loginPanel.jpg';
+import backImage from '../../../assets/images/logo.jpg';
 
 class LoginPanel extends Component {
 
