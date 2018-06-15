@@ -3,6 +3,11 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 
 import Input from "../../utils/forms/inputs";
 import ValidationRules from '../../utils/forms/validationRules';
+import LoadTabs from '../Tabs/';
+
+import {connect } from 'react-redux';
+import { signUp } from '../../Store/actions/user_actions';
+import { bindActionCreators } from 'redux';
 
 
 class LoginForm extends Component {
@@ -55,7 +60,6 @@ updateInput = (name, value)=>{
   let rules = formCopy[name].rules
   let valid = ValidationRules(value, rules,formCopy);
 
-  console.log(valid)
   formCopy[name].valid = valid;
 
 
@@ -82,8 +86,52 @@ changeFormType = ()=>{
   this.setState({
     type: type === "Login" ? "Register" : "Login",
     action: type === "Login" ? "Register" : "Login",
-    actionMode: type === "Login" ? "Not registered, Login" : "Not a user, Register",
+    actionMode: type === "Login" ? "Already a User? Login" : "Not a user? Register",
   })
+}
+
+formHasErrors = ()=>(
+  this.state.hasErrors ?
+    <View style={styles.errorContainer}>
+      <Text style={styles.errorLabel}>Check your info please</Text>
+    </View>
+  :null
+
+)
+submitUser = ()=>{
+  let isFormValid = true;
+  let formToSubmit = {};
+  const formCopy = this.state.form;
+
+  for(let key in formCopy){
+    if(this.state.type === 'Login'){
+      if(key !== 'confirmPassword'){
+        isFormValid = isFormValid && formCopy[key].valid;
+        formToSubmit[key] = formCopy[key].value
+      }
+    } else {
+      isFormValid = isFormValid && formCopy[key].valid;
+      formToSubmit[key] = formCopy[key].value
+    }
+  }
+
+  if(isFormValid){
+
+    if(this.state.type === "Login"){
+
+    } else {
+      this.props.signUp(formToSubmit).then(()=>{
+        console.log('successfull')
+      })
+    }
+
+
+  } else {
+    this.setState({
+      hasErrors:true
+    })
+  }
+
 }
 
   render() {
@@ -109,6 +157,11 @@ changeFormType = ()=>{
           />
 
           {this.confirmPassword()}
+          {this.formHasErrors()}
+
+
+
+
           <View style={
             this.props.platform === "android"
             ? styles.buttonStyleAndroid
@@ -117,7 +170,7 @@ changeFormType = ()=>{
           <Button
             title={this.state.action}
             color="#fd9727"
-            onPress={()=> alert('submit')}
+            onPress={this.submitUser}
           />
         </View>
 
@@ -139,7 +192,7 @@ changeFormType = ()=>{
           <Button
             title="I'll do it later'"
             color="lightgray"
-            onPress={()=> alert('do it later')}
+            onPress={()=> LoadTabs() }
           />
         </View>
     </View>
@@ -148,17 +201,38 @@ changeFormType = ()=>{
 }
 
 const styles = StyleSheet.create({
-  formInputContainer:{
-    minHeight:400
+  formInputContainer: {
+    minHeight: 400
   },
-  buttonStyleAndroid:{
-    marginBottom:10,
-    marginTop:10
+  buttonStyleAndroid: {
+    marginBottom: 10,
+    marginTop: 10
   },
-  buttonStyleIos:{
-    marginBottom:0
+  buttonStyleIos: {
+    marginBottom: 0
   },
+  errorContainer: {
+    marginTop:10,
+    marginBottom:20
+  },
+  errorLabel: {
+    color:'red',
+    fontFamily:'Roboto-Black'
+
+  }
 
 })
 
-export default LoginForm;
+function mapStateToProps(state){
+  return {
+    User: state.user
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({signUp}, dispatch)
+}
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginForm);

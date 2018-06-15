@@ -1,5 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 
+export const APIKEY = `AIzaSyCShh-Uy0mKKjKF9ZNAcMWDBCTaliqPfp8`;
+export const SIGNUP = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${APIKEY}`
 
 export const getOrientation = (value) => {
   return Dimensions.get("window").heigth > value ? "portrait" : "landscape"
