@@ -5,8 +5,8 @@ import Input from "../../utils/forms/inputs";
 import ValidationRules from '../../utils/forms/validationRules';
 import LoadTabs from '../Tabs/';
 
-import {connect } from 'react-redux';
-import { signUp } from '../../Store/actions/user_actions';
+import { connect } from 'react-redux';
+import { signUp, signIn } from '../../Store/actions/user_actions';
 import { bindActionCreators } from 'redux';
 
 
@@ -98,41 +98,43 @@ formHasErrors = ()=>(
   :null
 
 )
-submitUser = ()=>{
+
+submitUser = ()=> {
   let isFormValid = true;
   let formToSubmit = {};
+
   const formCopy = this.state.form;
 
   for(let key in formCopy){
     if(this.state.type === 'Login'){
       if(key !== 'confirmPassword'){
-        isFormValid = isFormValid && formCopy[key].valid;
+        isFormValid = isFormValid && formCopy[key].valid
         formToSubmit[key] = formCopy[key].value
       }
     } else {
-      isFormValid = isFormValid && formCopy[key].valid;
+      isFormValid = isFormValid && formCopy[key].valid
       formToSubmit[key] = formCopy[key].value
     }
   }
 
   if(isFormValid){
+    if(this.state.type === 'Login'){
+      this.props.signIn(formToSubmit).then(()=>{
+        console.log(this.props.User)
 
-    if(this.state.type === "Login"){
-
+      })
     } else {
       this.props.signUp(formToSubmit).then(()=>{
-        console.log('successfull')
+        console.log(this.props.User)
       })
     }
-
-
   } else {
     this.setState({
       hasErrors:true
     })
   }
-
 }
+
 
   render() {
     return (
@@ -213,11 +215,13 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     marginTop:10,
-    marginBottom:20
+    marginBottom:20,
+      alignItems:'center'
   },
   errorLabel: {
     color:'red',
-    fontFamily:'Roboto-Black'
+    fontFamily:'Roboto',
+
 
   }
 
@@ -225,12 +229,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    User: state.user
+    User: state.User
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({signUp}, dispatch)
+  return bindActionCreators({signUp, signIn}, dispatch)
 }
 
 
