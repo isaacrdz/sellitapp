@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { signUp, signIn } from '../../Store/actions/user_actions';
 import { bindActionCreators } from 'redux';
 
+import { setTokens, getTokens } from '../../utils/misc'
+
 
 class LoginForm extends Component {
 
@@ -99,6 +101,19 @@ formHasErrors = ()=>(
 
 )
 
+
+manageAccess = () => {
+  if(!this.props.User.userData.uid){
+    this.setState({hasErrors:true})
+  } else {
+    setTokens(this.props.User.userData, ()=>{
+      this.setState({hasErrors:false});
+      LoadTabs();
+    })
+  }
+}
+
+
 submitUser = ()=> {
   let isFormValid = true;
   let formToSubmit = {};
@@ -120,12 +135,14 @@ submitUser = ()=> {
   if(isFormValid){
     if(this.state.type === 'Login'){
       this.props.signIn(formToSubmit).then(()=>{
-        console.log(this.props.User)
+        // console.log(this.props.User)
+        this.manageAccess()
 
       })
     } else {
       this.props.signUp(formToSubmit).then(()=>{
-        console.log(this.props.User)
+        // console.log(this.props.User)
+        this.manageAccess()
       })
     }
   } else {
