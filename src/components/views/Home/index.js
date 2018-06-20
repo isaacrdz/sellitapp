@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  StyleSheet, Text, View } from 'react-native';
 
-import { navigatorDrawer } from '../../utils/misc';
+import { navigatorDrawer,navigatorDeepLink } from '../../utils/misc';
 
 class Home extends Component{
 
@@ -9,6 +9,7 @@ class Home extends Component{
     super(props);
 
     this.props.navigator.setOnNavigatorEvent((event)=>{
+      navigatorDeepLink(event, this)
       navigatorDrawer(event, this)
     })
   }
