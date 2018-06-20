@@ -52,7 +52,7 @@ export const navigatorDeepLink = (event, $this) => {
         screen: event.link,
         animationType: 'slide-horizontal',
         navigatorStyle:{
-          navBarBackgroundColor:'#00ADA9',
+          navBarBackgroundColor:'#0085CA',
           screenBackgroundColor: '#ffffff',
           backButtonHidden:false
         }
