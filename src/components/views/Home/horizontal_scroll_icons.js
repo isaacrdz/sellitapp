@@ -10,19 +10,19 @@ const categoriesIcons = (value) => {
       name = 'circle-o-notch'
       break;
 
-    case 'Sports':
+    case 'Security':
       name = 'soccer-ball-o'
       break;
 
-    case 'Music':
+    case 'Automation':
       name = 'music'
       break;
 
-    case 'Clothing':
+    case 'Fire':
       name = 'shopping-bag'
       break;
 
-    case 'Electronics':
+    case 'Special':
       name = 'tv'
       break;
 
@@ -47,9 +47,14 @@ class HorizontalScrollIcons extends Component {
               <Icon.Button
                 name={categoriesIcons(item)}
                 iconStyle={{marginRight:10, marginLeft:3}}
-                backgroundColor='red'
+                backgroundColor= {
+
+                    this.props.categorySelected !== item ?'#c1c1c1' : '#FF6444'
+
+                }
                 size={20}
                 borderRadious={100}
+                onPress={()=>this.props.updateCategoryHandler(item)}
                 >
 
                   <Text style={{
