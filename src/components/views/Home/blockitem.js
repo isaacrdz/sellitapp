@@ -24,7 +24,7 @@ const BlockItem = (props) => {
         <Image
           resizeMode={"cover"}
           style={styles.itemImage}
-          source={{ uri: 'https://loremflickr.com/400/400/girl,brazil,dog'}}
+          source={{ uri: 'https://loremflickr.com/cache/resized/4719_27873084189_61976c9c7d_z_400_400_nofilter.jpg'}}
         />
     </View>
 )
@@ -32,8 +32,13 @@ const BlockItem = (props) => {
   const block = ({item, i}) => (
     <View style={styles.blockRow}>
       <TouchableOpacity
-        onPress={() => alert('go to post')}
-        style={{flex: 2}}>
+        onPress={() =>{
+          props.goto(item.blockOne)
+        }}
+        style={{flex: 2}}
+
+
+        >
 
         <View
           style={[
@@ -48,7 +53,9 @@ const BlockItem = (props) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => alert('go to post')}
+        onPress={() =>{
+          props.goto(item.blockTwo)
+        }}
          style={{flex: 2 }}>
          <View style={[
                styles.blockGridStyle,

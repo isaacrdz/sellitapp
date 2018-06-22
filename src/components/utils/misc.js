@@ -20,7 +20,7 @@ export const removeOrientationListener = ()=>{
   return Dimensions.removeEventListener("change")
 }
 
-export const getPlatform = ()=>{
+export const getPlatform = () =>{
   if(Platform.OS === "ios"){
     return "ios"
   } else {
