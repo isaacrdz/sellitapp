@@ -108,7 +108,7 @@ manageAccess = () => {
   } else {
     setTokens(this.props.User.userData, ()=>{
       this.setState({hasErrors:false});
-      LoadTabs();
+      LoadTabs(true);
     })
   }
 }
@@ -211,7 +211,7 @@ submitUser = ()=> {
           <Button
             title="I'll do it later'"
             color="lightgray"
-            onPress={()=> LoadTabs() }
+            onPress={()=> LoadTabs(false) }
           />
         </View>
     </View>

@@ -61,7 +61,7 @@ class Login extends Component {
             this.setState({loading: false})
           } else {
             setTokens(this.props.User.userData,()=>{
-              LoadTabs()
+              LoadTabs(true)
             })
           }
         })
@@ -77,7 +77,9 @@ class Login extends Component {
       </View>)
     } else {
 
-      return (<ScrollView>
+      return (
+
+        <ScrollView>
         <View style={styles.container}>
           <Logo showLogin={this.showLogin} orientation={this.state.orientation}/>
           <LoginPanel show={this.state.logoAnimation} orientation={this.state.orientation} platform={this.state.platform}/>

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import Login from './src/components/views/Login';
 import Home from './src/components/views/Home';
 import AddPost from './src/components/views/Admin/AddPost';
+import NotAllow from './src/components/views/Admin/AddPost/notallow';
 import SidedrawerComponent from './src/components/views/Sidedrawer';
 import UserPosts from './src/components/views/Admin/UserPosts';
 import Article from './src/components/views/Article';
@@ -59,6 +60,14 @@ Navigation.registerComponent(
   "sellitApp.Article",
   ()=>
   Article,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "sellitApp.NotAllow",
+  ()=>
+  NotAllow,
   store,
   Provider
 );

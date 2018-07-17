@@ -36,16 +36,14 @@ const Article =(props)=>{
         backgroundColor="#ffffff"
         onPress={()=> openEmail()}
         >
-        <Text style={{fontSize:20}}>
-            {props.ArticleData.email}
-        </Text>
+        <Text style={{fontSize:20}}>{props.ArticleData.email}</Text>
       </Icon.Button>
 
     </View>
   )
 
   const openEmail = ()=>{
-    Linking.openURL(`mailto://${props.ArticleData.email}&subject=Regarding ${props.ArticleData.title}`)
+    Linking.openURL(`mailto://${props.ArticleData.email}&subject=Regarding ${props.ArticleData.title}`);
   }
 
   return(
