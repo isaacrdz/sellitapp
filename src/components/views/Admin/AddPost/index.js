@@ -7,10 +7,18 @@ import {
   Button,
   Modal
 } from "react-native";
-import { navigatorDrawer } from "../../../utils/misc";
+import { navigatorDrawer, getTokens, setTokens } from "../../../utils/misc";
 
 import Input from "../../../utils/forms/inputs";
 import ValidationRules from "../../../utils/forms/validationRules";
+
+import { connect } from "react-redux";
+import {
+  addArticle,
+  resetArticle
+} from "../../../Store/actions/articles_actions";
+import { autoSignIn } from "../../../Store/actions/user_actions";
+import { bindActionCreators } from "redux";
 
 class AddPost extends Component {
   constructor(props) {
@@ -114,9 +122,35 @@ class AddPost extends Component {
     }
 
     if (isFormValid) {
-      console.log(dataToSubmit);
       this.setState({
-        modalSuccess: true
+        loading: true
+      });
+
+      getTokens(value => {
+        const dateNow = new Date();
+        const expiration = dateNow.getTime();
+        const form = {
+          ...dataToSubmit,
+          uid: value[3][1]
+        };
+        if (expiration > value[2][1]) {
+          console.log("Auto sign in");
+          this.props.autoSignIn(value[1][1]).then(() => {
+            setTokens(this.props.User.userData, () => {
+              this.props
+                .addArticle(form, this.props.User.userData.token)
+                .then(() => {
+                  this.setState({ modalSuccess: true });
+                });
+            });
+          });
+        } else {
+          this.props
+            .addArticle(form, this.props.User.userData.token)
+            .then(() => {
+              this.setState({ modalSuccess: true });
+            });
+        }
       });
     } else {
       let errorsArray = [];
@@ -165,7 +199,7 @@ class AddPost extends Component {
       loading: false
     });
 
-    //dispatch action to clear store ..
+    this.props.resetArticle();
   };
 
   render() {
@@ -330,4 +364,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddPost;
+function mapStateToProps(state) {
+  return {
+    Articles: state.Articles,
+    User: state.User
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addArticle, autoSignIn, resetArticle }, dispatch);
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddPost);
